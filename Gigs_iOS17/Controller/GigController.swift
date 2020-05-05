@@ -18,15 +18,17 @@ class GigController {
     enum NetworkError: Error {
         case noData
         case failedSignUp
+        case failedSignIn
     }
     
     var bearer: Bearer?
     
     private let baseURL = URL(string: "https://lambdagigapi.herokuapp.com/api")!
     private lazy var signUpURL = baseURL.appendingPathComponent("/users/signup")
-    private lazy var signInURL = baseURL.appendingPathComponent("/users/login")
+    private lazy var logInURL = baseURL.appendingPathComponent("/users/login")
     
     private lazy var jsonEncoder = JSONEncoder()
+    private lazy var jsonDecoder = JSONDecoder()
     
     func signUp(with user: User, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         print("signUpURL = \(signUpURL.absoluteString)")
@@ -38,28 +40,76 @@ class GigController {
         do {
             let jsonData = try jsonEncoder.encode(user)
             request.httpBody = jsonData
-            
-            let task = URLSession.shared.dataTask(with: request) { _, response, error in
-                if let error = error {
-                    print("Sign up failed with error: \(error)")
-                    completion(.failure(.failedSignUp))
-                    return
-                }
-                
-                guard let response = response as? HTTPURLResponse,
-                    response.statusCode == 200 else {
-                        print("Sign up was unsuccessful")
-                        completion(.failure(.failedSignUp))
-                        return
-                }
-                
-                completion(.success(true))
-            }
-            task.resume()
         } catch {
             print("Error encoding user: \(error)")
             completion(.failure(.failedSignUp))
             return
         }
+        
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Sign up failed with error: \(error)")
+                completion(.failure(.failedSignUp))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                print("Sign up was unsuccessful")
+                completion(.failure(.failedSignUp))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
+        
+    }
+    
+    func login(with user: User, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        print("logInURL = \(logInURL.absoluteString)")
+        
+        var request = URLRequest(url: logInURL)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try jsonEncoder.encode(user)
+            request.httpBody = jsonData
+        } catch {
+            print("Error encoding user object: \(error)")
+            completion(.failure(.failedSignIn))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Sign in failed with error: \(error)")
+                completion(.failure(.failedSignIn))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                print("Sign in was unsuccessful")
+                completion(.failure(.failedSignIn))
+                return
+            }
+            
+            guard let data = data else {
+                print("Data was not received")
+                completion(.failure(.noData))
+                return
+            }
+            do {
+                let token = try self.jsonDecoder.decode(Bearer.self, from: data)
+                self.bearer = token
+                print("Sign in function \(self.bearer?.token)")
+                completion(.success(true))
+            } catch {
+                print("Error decoding bearer: \(error)")
+                completion(.failure(.failedSignIn))
+                return
+            }
+        }.resume()
     }
 }
