@@ -58,9 +58,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="Iza-nD-BjH"/>
                     <connections>
-                        <outlet property="UserTypeSegmentedControl" destination="lpQ-0Y-LVi" id="Sam-gG-TTR"/>
                         <outlet property="loginSignupButton" destination="8cG-bq-EJh" id="1UH-S6-S4J"/>
                         <outlet property="passwordTextField" destination="an6-oU-uhW" id="zbq-ah-9Vx"/>
+                        <outlet property="userTypeSegmentedControl" destination="lpQ-0Y-LVi" id="Sam-gG-TTR"/>
                         <outlet property="usernameTextField" destination="XJd-iw-8Qs" id="eof-bV-486"/>
                     </connections>
                 </viewController>
