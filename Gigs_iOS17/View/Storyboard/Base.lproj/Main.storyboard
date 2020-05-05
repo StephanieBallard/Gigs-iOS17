@@ -61,7 +61,7 @@
                         <outlet property="UserTypeSegmentedControl" destination="lpQ-0Y-LVi" id="Sam-gG-TTR"/>
                         <outlet property="loginSignupButton" destination="8cG-bq-EJh" id="1UH-S6-S4J"/>
                         <outlet property="passwordTextField" destination="an6-oU-uhW" id="zbq-ah-9Vx"/>
-                        <outlet property="userNameTextField" destination="XJd-iw-8Qs" id="eof-bV-486"/>
+                        <outlet property="usernameTextField" destination="XJd-iw-8Qs" id="eof-bV-486"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TCv-QP-ZGM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
