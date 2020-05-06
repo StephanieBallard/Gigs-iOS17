@@ -66,7 +66,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TCv-QP-ZGM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-233" y="-676"/>
+            <point key="canvasLocation" x="583" y="-689"/>
         </scene>
         <!--Gigs Table View Controller-->
         <scene sceneID="ofn-sb-crY">
@@ -100,6 +100,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="Mdw-It-dth" kind="show" identifier="ViewGigShowSegue" id="RAq-gi-sbS"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -107,7 +110,13 @@
                             <outlet property="delegate" destination="JnT-Kb-V6y" id="hZQ-pO-GdG"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="TDB-al-luR"/>
+                    <navigationItem key="navigationItem" id="TDB-al-luR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mGX-51-wJ7">
+                            <connections>
+                                <segue destination="Mdw-It-dth" kind="show" identifier="AddGigShowSegue" id="3y1-ty-6YD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="Xwz-hM-X21" kind="show" identifier="SignupLoginShowSegue" id="KyV-b6-94d"/>
                     </connections>
@@ -115,6 +124,79 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kpW-x5-aFe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-232" y="-12"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="9SP-Yr-hpK">
+            <objects>
+                <viewController id="Mdw-It-dth" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tDz-a1-dns">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nHw-A6-a3O">
+                                <rect key="frame" x="20" y="108" width="374" height="34"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Job Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wb2-1I-Jj9">
+                                        <rect key="frame" x="0.0" y="0.0" width="66.5" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3fy-SY-Rdk">
+                                        <rect key="frame" x="74.5" y="0.0" width="299.5" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="blt-c1-8Uf">
+                                <rect key="frame" x="20" y="150" width="374" height="529"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odf-BL-TFV">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5oy-ss-qbY">
+                                        <rect key="frame" x="0.0" y="29" width="374" height="228"/>
+                                    </datePicker>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFT-wJ-8yK">
+                                        <rect key="frame" x="0.0" y="264.5" width="374" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3p1-WO-Qy3">
+                                        <rect key="frame" x="0.0" y="293" width="374" height="236"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="m1e-fr-RDN" firstAttribute="trailing" secondItem="nHw-A6-a3O" secondAttribute="trailing" constant="20" id="Bym-rp-U4g"/>
+                            <constraint firstItem="m1e-fr-RDN" firstAttribute="bottom" secondItem="blt-c1-8Uf" secondAttribute="bottom" constant="183" id="DXB-Yy-UAB"/>
+                            <constraint firstItem="nHw-A6-a3O" firstAttribute="leading" secondItem="m1e-fr-RDN" secondAttribute="leading" constant="20" id="EgW-Lr-pIp"/>
+                            <constraint firstItem="m1e-fr-RDN" firstAttribute="trailing" secondItem="blt-c1-8Uf" secondAttribute="trailing" constant="20" id="JSU-dj-PAl"/>
+                            <constraint firstItem="blt-c1-8Uf" firstAttribute="top" secondItem="nHw-A6-a3O" secondAttribute="bottom" constant="8" id="Ufk-9w-NCu"/>
+                            <constraint firstItem="blt-c1-8Uf" firstAttribute="leading" secondItem="m1e-fr-RDN" secondAttribute="leading" constant="20" id="isk-j2-gAy"/>
+                            <constraint firstItem="nHw-A6-a3O" firstAttribute="top" secondItem="m1e-fr-RDN" secondAttribute="top" constant="20" id="y07-PS-xyd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="m1e-fr-RDN"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="CRq-0h-bwK">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="L6q-oV-qqB"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CS4-Gj-QvX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="582.60869565217399" y="-12.053571428571429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7L4-me-dTo">
@@ -135,4 +217,7 @@
             <point key="canvasLocation" x="-926.08695652173924" y="-12.053571428571429"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="RAq-gi-sbS"/>
+    </inferredMetricsTieBreakers>
 </document>
