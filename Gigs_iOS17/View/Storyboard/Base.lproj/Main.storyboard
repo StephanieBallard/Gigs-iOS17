@@ -125,10 +125,10 @@
             </objects>
             <point key="canvasLocation" x="-232" y="-12"/>
         </scene>
-        <!--View Controller-->
+        <!--Gig Detail View Controller-->
         <scene sceneID="9SP-Yr-hpK">
             <objects>
-                <viewController id="Mdw-It-dth" sceneMemberID="viewController">
+                <viewController id="Mdw-It-dth" customClass="GigDetailViewController" customModule="Gigs_iOS17" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tDz-a1-dns">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -159,7 +159,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5oy-ss-qbY">
-                                        <rect key="frame" x="0.0" y="29" width="374" height="228"/>
+                                        <rect key="frame" x="0.0" y="28.5" width="374" height="228"/>
                                     </datePicker>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFT-wJ-8yK">
                                         <rect key="frame" x="0.0" y="264.5" width="374" height="20.5"/>
@@ -191,8 +191,17 @@
                         <viewLayoutGuide key="safeArea" id="m1e-fr-RDN"/>
                     </view>
                     <navigationItem key="navigationItem" id="CRq-0h-bwK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="L6q-oV-qqB"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="L6q-oV-qqB">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="Mdw-It-dth" id="5nV-KX-7uv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="datePicker" destination="5oy-ss-qbY" id="Li8-Sr-BZ6"/>
+                        <outlet property="gigTitleTextField" destination="3fy-SY-Rdk" id="R0M-4E-d8k"/>
+                        <outlet property="textView" destination="3p1-WO-Qy3" id="Mrg-zv-MSc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CS4-Gj-QvX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
