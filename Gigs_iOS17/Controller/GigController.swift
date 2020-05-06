@@ -19,13 +19,17 @@ class GigController {
         case noData
         case failedSignUp
         case failedSignIn
+        case noToken
     }
     
     var bearer: Bearer?
+    var gigs: [Gig] = []
     
     private let baseURL = URL(string: "https://lambdagigapi.herokuapp.com/api")!
     private lazy var signUpURL = baseURL.appendingPathComponent("/users/signup")
     private lazy var logInURL = baseURL.appendingPathComponent("/users/login")
+    private lazy var allGigsURL = baseURL.appendingPathComponent("/gigs")
+    private lazy var createGigURL = baseURL.appendingPathComponent("/gigs")
     
     private lazy var jsonEncoder = JSONEncoder()
     private lazy var jsonDecoder = JSONDecoder()
@@ -111,5 +115,51 @@ class GigController {
                 return
             }
         }.resume()
+    }
+    
+    func fetchGigs(completion: @escaping (Result<[Gig], NetworkError>) -> Void) {
+        print("fetchGigsURL = \(allGigsURL.absoluteString)")
+        
+        guard let bearer = bearer else {
+            completion(.failure(.noToken))
+            return
+        }
+        
+        var request = URLRequest(url: allGigsURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error receiving Gigs: \(error)")
+                completion(.failure(.noData))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                print("Error receiving \(response)")
+                completion(.failure(.noToken))
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received from fetching gigs")
+                completion(.failure(.noData))
+                return
+            }
+            do {
+                self.jsonDecoder.dateDecodingStrategy = .iso8601
+                let gigs = try self.jsonDecoder.decode([Gig].self, from: data)
+                completion(.success(gigs))
+            } catch {
+                print("Error decoding gigs: \(error)")
+                completion(.failure(.noData))
+            }
+        }.resume()
+    }
+    
+    func createGig(completion: @escaping (Result<[Gig], NetworkError>) -> Void) {
+        print("createGigsURL = \(createGigURL)")
     }
 }
