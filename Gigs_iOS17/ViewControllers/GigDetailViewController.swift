@@ -28,13 +28,17 @@ class GigDetailViewController: UIViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        guard let gig = gig else { return }
+        if let gig = gig {
+            gigTitleTextField.text = gig.title
+            datePicker.date = gig.dueDate
+            textView.text = gig.description
+        }
+        
+        let gig = Gig(title: title ?? "", dueDate: datePicker.date, description: description)
         
         gigController?.createGig(with: gig, completion: { _ in
             DispatchQueue.main.async {
-                self.gigTitleTextField.text = self.gig?.title
-                self.textView.text = self.gig?.description
-                self.datePicker?.date = self.gig?.dueDate
+                self.navigationController?.popViewController(animated: true)
             }
             
         })
