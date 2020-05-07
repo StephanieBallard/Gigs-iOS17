@@ -15,19 +15,44 @@ class GigDetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     
     var gigController: GigController?
-    var gig: Gig?
+    var gig: Gig? {
+        didSet {
+            updateViews()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateViews()
+        
         // Do any additional setup after loading the view.
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let gig = gig else { return }
+        
+        gigController?.createGig(with: gig, completion: { _ in
+            DispatchQueue.main.async {
+                self.gigTitleTextField.text = self.gig?.title
+                self.textView.text = self.gig?.description
+                self.datePicker?.date = self.gig?.dueDate
+            }
+            
+        })
+            
+            
     }
     
     func updateViews() {
+        gigTitleTextField.text = gig?.title
+        textView.text = gig?.description
         
+        if let dueDate = gig?.dueDate {
+            datePicker?.date = dueDate
+        }
+        
+        if gigTitleTextField.text == "" {
+            gigTitleTextField.text = "New Gig"
+        }
     }
     
     /*
