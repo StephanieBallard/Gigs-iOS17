@@ -14,7 +14,7 @@ class GigDetailViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var textView: UITextView!
     
-    var gigController: GigController?
+    var gigController: GigController!
     var gig: Gig? {
         didSet {
             updateViews()
@@ -23,30 +23,39 @@ class GigDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        if let gig = gig {
-            gigTitleTextField.text = gig.title
-            datePicker.date = gig.dueDate
-            textView.text = gig.description
+        guard
+            let title = gigTitleTextField.text,
+            let description = textView.text,
+            !title.isEmpty,
+            !description.isEmpty
+            else { return }
+        
+        
+        if var gig = gig {
+            gig.title = title
+            gig.dueDate = datePicker.date
+            gig.description = description
+        }
+        if gig == nil {
+            let gig = Gig(title: title, dueDate: datePicker.date, description: description)
+            self.gigController.createGig(with: gig) { result in
+                <#code#>
+            }
         }
         
-        let gig = Gig(title: title ?? "", dueDate: datePicker.date, description: description)
-        
-        gigController?.createGig(with: gig, completion: { _ in
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
-            }
-            
-        })
-            
-            
     }
     
     func updateViews() {
+        
+        if var gig = gig {
+            gigTitleTextField.text = gig.title
+            datePicker.date = gig.dueDate
+            textView.text = gig.description
+            
+        }
         gigTitleTextField.text = gig?.title
         textView.text = gig?.description
         
@@ -60,13 +69,13 @@ class GigDetailViewController: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

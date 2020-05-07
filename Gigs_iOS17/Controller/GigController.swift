@@ -95,7 +95,7 @@ class GigController {
             
             if let response = response as? HTTPURLResponse,
                 response.statusCode != 200 {
-                print("Sign in was unsuccessful")
+                print("Sign in was unsuccessful: \(response)")
                 completion(.failure(.failedSignIn))
                 return
             }
@@ -166,7 +166,7 @@ class GigController {
         var request = URLRequest(url: createGigURL)
         request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        request.addValue("Bearer \(bearer?.token ?? "0")", forHTTPHeaderField: "Authorization")
         do {
             let jsonData = try jsonEncoder.encode(gig)
             request.httpBody = jsonData
@@ -185,7 +185,7 @@ class GigController {
             
             if let response = response as? HTTPURLResponse,
                 response.statusCode != 200 {
-                print("Creating gig was unsuccessful")
+                print("Creating gig was unsuccessful: \(response)")
                 completion(.failure(.failedCreatingGig))
                 return
             }
