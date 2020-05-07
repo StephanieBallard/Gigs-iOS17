@@ -49,22 +49,13 @@ class GigDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        
-        if var gig = gig {
+        if let gig = gig {
+            title = gig.title
             gigTitleTextField.text = gig.title
             datePicker.date = gig.dueDate
             textView.text = gig.description
-            
-        }
-        gigTitleTextField.text = gig?.title
-        textView.text = gig?.description
-        
-        if let dueDate = gig?.dueDate {
-            datePicker?.date = dueDate
-        }
-        
-        if gigTitleTextField.text == "" {
-            gigTitleTextField.text = "New Gig"
+        } else {
+            title = "New Gig"
         }
     }
     
