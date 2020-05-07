@@ -20,6 +20,7 @@ class GigController {
         case failedSignUp
         case failedSignIn
         case noToken
+        case failedCreatingGig
     }
     
     var bearer: Bearer?
@@ -159,7 +160,37 @@ class GigController {
         }.resume()
     }
     
-    func createGig(completion: @escaping (Result<[Gig], NetworkError>) -> Void) {
+    func createGig(with gig: Gig, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         print("createGigsURL = \(createGigURL)")
+        
+        var request = URLRequest(url: createGigURL)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try jsonEncoder.encode(gig)
+            request.httpBody = jsonData
+        } catch {
+            print("Error encoding gig: \(error)")
+            completion(.failure(.failedCreatingGig))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Error creating gig: \(error)")
+                completion(.failure(.failedCreatingGig))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                print("Creating gig was unsuccessful")
+                completion(.failure(.failedCreatingGig))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
     }
 }
