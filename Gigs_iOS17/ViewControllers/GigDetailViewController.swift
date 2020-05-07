@@ -15,14 +15,11 @@ class GigDetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     
     var gigController: GigController!
-    var gig: Gig? {
-        didSet {
-            updateViews()
-        }
-    }
+    var gig: Gig?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
@@ -42,7 +39,9 @@ class GigDetailViewController: UIViewController {
         if gig == nil {
             let gig = Gig(title: title, dueDate: datePicker.date, description: description)
             self.gigController.createGig(with: gig) { result in
-                <#code#>
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
         
